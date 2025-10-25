@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Пользователь" as User
+actor "Продавец" as seller
+package "Система" {
+    usecase "Узнать необходимость рецепта для получения товара" as need_note
+    usecase "Посмотреть наличие товара" as look_enable
+    usecase "Добавить товар в базу данных" as add_thing
+    usecase "Проверить рецепт от покупателя" as check_note
+}
+User --> (look_enable)
+
+seller --> (look_enable)
+seller --> (add_thing)
+seller --> (check_note)
+(need_note) ==> (look_enable)
+@enduml
