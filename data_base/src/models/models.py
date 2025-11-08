@@ -27,3 +27,17 @@ class Shelve:
         self.capacity = capacity
         self.cab_id = cab_id
         self.item_type = item_type
+
+class User:
+    """
+    Модель для таблицы Books
+    Поля:
+    - id: уникальный идентификатор книги (PK)
+    - title: название книги
+    - author_id: идентификатор автора (FK -> Authors.id)
+    """
+    def __init__(self, name, password, is_seller):
+        self.name = name
+        self.password = password
+        self.is_seller = is_seller
+

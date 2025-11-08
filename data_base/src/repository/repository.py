@@ -1,6 +1,6 @@
 import sqlite3
 
-from data_base.src.models.models import item, Shelve
+from data_base.src.models.models import item, Shelve, User
 
 
 class Repository:
@@ -9,10 +9,21 @@ class Repository:
         self.conn.row_factory = sqlite3.Row  # Позволяет обращаться к колонкам по имени
         self.cursor = self.conn.cursor()
 
-    def get_all_books(self):
-        self.cursor.execute("SELECT ID, Title, Author_ID FROM Books")
+    def authorisation(self):
+        self.cursor.execute("SELECT Name, Password, IS_SELLER FROM Users")
         rows = self.cursor.fetchall()
-        return [Book(id=row["ID"], title=row["Title"], author_id=row["Author_ID"]) for row in rows]
+        return [User(name=row["Name"], password=row["Password"], is_seller=row["IS_SELLER"]) for row in rows]
+
+    def check_recipe(self):
+        inp_name = input("Введите название товара:  ")
+        self.cursor.execute("SELECT Need_approve FROM items WHERE Name = ?", (inp_name,))
+        rows = self.cursor.fetchall()
+        return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"]) for row in rows]
+
+    def get_all_items(self):
+            self.cursor.execute("SELECT Item_ID, Name, Need_approve, Size, Item_type FROM items")
+            rows = self.cursor.fetchall()
+            return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"]) for row in rows]
 
     def get_author(self, author_id: int):
         self.cursor.execute("SELECT ID, Name FROM Authors WHERE ID = ?", (author_id,))
