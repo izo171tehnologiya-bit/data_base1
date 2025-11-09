@@ -1,0 +1,24 @@
+- Item_ID: 1
+  Item_type: Не антибиотики
+  Name: Капли для глаз
+  Need_approve: 1
+  Shelve_placement: 10
+  Size: 5
+- Item_ID: 2
+  Item_type: Не антибиотики
+  Name: Жаропонижающее
+  Need_approve: 0
+  Shelve_placement: 10
+  Size: 3
+- Item_ID: 3
+  Item_type: Антибиотики
+  Name: Противовирусное
+  Need_approve: 1
+  Shelve_placement: 50
+  Size: 7
+- Item_ID: 4
+  Item_type: Не антибиотики
+  Name: Витамины
+  Need_approve: 0
+  Shelve_placement: 40
+  Size: 4

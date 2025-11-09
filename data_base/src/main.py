@@ -1,8 +1,9 @@
 from data_base.src.Database.db import get_connection,create_tables, insert_sample_data
-from data_base.src.repository.repository import Repository
+from data_base.src.repository.repository import Repository, new_item
 import os
 
 DB_FILE = "library.db"
+OUT_DICT = "out"
 
 
 def main():
@@ -10,10 +11,12 @@ def main():
     if not os.path.exists(DB_FILE):
         create_tables(DB_FILE)
         insert_sample_data(DB_FILE)
+    if not os.path.exists(OUT_DICT):
+        os.makedirs(OUT_DICT)
 
     repo = Repository(DB_FILE)
-    user_flag = False
-    # Для отладки флаг  для  авторизации сделан True
+    user_flag = True
+    # Для отладки флаг для авторизации и продавца сделан True
     aut_flag = True
 
     # --- Основной цикл программы ---
@@ -32,6 +35,8 @@ def main():
             print("1 - Показать все товары")
             print("2 - Узнать необходимость рецепта")
             print("3 - Проверить наличие товара в магазине")
+            print("4 - Добавить новый товар (только для  продавцов)")
+            print("5 - Вывести данные в виде разных таблиц")
             print("0 - Выход")
             choice = input("Ваш выбор: ")
 
@@ -59,6 +64,19 @@ def main():
                         print("Товар есть в магазине")
                         break
                 else: print("Товара нет")
+
+            elif choice == "4":
+                if user_flag == False:
+                    print("Эта функция только для продавцов")
+                    break
+                else:
+                    new_item()
+            elif choice == "5":
+                repo.extractjson()
+                repo.extractcsv()
+                repo.extractxml()
+                repo.extractyaml()
+
 
             elif choice == "0":
                 print("Выход из программы...")

@@ -1,0 +1,34 @@
+[
+    {
+        "Item_ID": 1,
+        "Name": "Капли для глаз",
+        "Need_approve": 1,
+        "Size": 5,
+        "Item_type": "Не антибиотики",
+        "Shelve_placement": 10
+    },
+    {
+        "Item_ID": 2,
+        "Name": "Жаропонижающее",
+        "Need_approve": 0,
+        "Size": 3,
+        "Item_type": "Не антибиотики",
+        "Shelve_placement": 10
+    },
+    {
+        "Item_ID": 3,
+        "Name": "Противовирусное",
+        "Need_approve": 1,
+        "Size": 7,
+        "Item_type": "Антибиотики",
+        "Shelve_placement": 50
+    },
+    {
+        "Item_ID": 4,
+        "Name": "Витамины",
+        "Need_approve": 0,
+        "Size": 4,
+        "Item_type": "Не антибиотики",
+        "Shelve_placement": 40
+    }
+]
