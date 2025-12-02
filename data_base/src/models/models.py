@@ -7,12 +7,13 @@ class item:
     - id: уникальный идентификатор автора (PK)
     - name: имя автора
     """
-    def __init__(self, it_id, name, need_approve, size, item_type):
+    def __init__(self, it_id, name, need_approve, size, item_type, shelve_placement):
         self.it_id = it_id
         self.name = name
         self.need_approve = need_approve
         self.size = size
         self.item_type = item_type
+        self.shelve_placement = shelve_placement
 
 class Shelve:
     """

@@ -22,7 +22,7 @@ def create_tables(db_name: str = "library.db"):
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS items (
-            Item_ID INTEGER,
+            Item_ID INTEGER PRIMARY KEY AUTOINCREMENT,
             Name TEXT NOT NULL,
             Need_approve BOOL,
             Size INTEGER,
@@ -66,12 +66,12 @@ def insert_sample_data(db_name: str = "library.db"):
     cursor.execute("SELECT COUNT(*) FROM items")
     if cursor.fetchone()[0] == 0:
         items = [
-            (1, "Капли для глаз", True, 5, "Не антибиотики", 10),
-            (2, "Жаропонижающее", False, 3, "Не антибиотики", 10),
-            (3, "Противовирусное", True, 7, "Антибиотики", 50),
-            (4, "Витамины", False, 4, "Не антибиотики", 40)
+            ("Капли для глаз", True, 5, "Не антибиотики", 10),
+            ("Жаропонижающее", False, 3, "Не антибиотики", 10),
+            ("Противовирусное", True, 7, "Антибиотики", 50),
+            ("Витамины", False, 4, "Не антибиотики", 40)
         ]
-        cursor.executemany("INSERT INTO items (Item_ID, Name, Need_approve, Size, Item_type, Shelve_placement) VALUES (?, ?, ?, ?, ?, ?)", items)
+        cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement) VALUES (?, ?, ?, ?, ?)", items)
         print("Добавлены товары.")
 
     # Проверка, есть ли книги

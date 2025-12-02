@@ -1,10 +1,13 @@
-from data_base.src.Database.db import get_connection,create_tables, insert_sample_data
-from data_base.src.repository.repository import Repository, new_item
+from data_base.src.Database.db import create_tables, insert_sample_data
+from data_base.src.repository.repository import Repository, new_item, del_item
+from data_base.src.out.Out_functions import Out_functions
 import os
 
 DB_FILE = "library.db"
 OUT_DICT = "out"
 
+# Пользователь Логин User1 Пароль 1234
+# Продавец Логин Seller1 Пароль qwert
 
 def main():
     # Если базы нет, создаем таблицы и вставляем тестовые данные
@@ -15,9 +18,9 @@ def main():
         os.makedirs(OUT_DICT)
 
     repo = Repository(DB_FILE)
-    user_flag = True
-    # Для отладки флаг для авторизации и продавца сделан True
-    aut_flag = True
+    out = Out_functions(DB_FILE)
+    user_flag = False
+    aut_flag = False
 
     # --- Основной цикл программы ---
     while True:
@@ -35,8 +38,12 @@ def main():
             print("1 - Показать все товары")
             print("2 - Узнать необходимость рецепта")
             print("3 - Проверить наличие товара в магазине")
-            print("4 - Добавить новый товар (только для  продавцов)")
-            print("5 - Вывести данные в виде разных таблиц")
+            if user_flag:
+                print("4 - Добавить новый товар")
+            if user_flag:
+                print("5 - Вывести(обновить) данные в виде разных таблиц")
+            if user_flag:
+                print("6 - Удалить товар")
             print("0 - Выход")
             choice = input("Ваш выбор: ")
 
@@ -57,26 +64,32 @@ def main():
                 else: print("Рецепт не требуется")
 
             elif choice == "3":
-                inp_name = input("Введите название товара:  ")
+                while True:
+                    inp_name = input("Введите название товара:  ")
+                    if inp_name.isdigit():
+                        break
+                    else:
+                        print("Неверно, попробуйте ещё раз")
                 items = repo.get_all_items()
                 for item in items:
                     if item.name == inp_name:
-                        print("Товар есть в магазине")
+                        if user_flag == True:
+                            print(f"Товар есть в магазине. Он расположен на {item.shelve_placement} полке")
                         break
-                else: print("Товара нет")
-
-            elif choice == "4":
-                if user_flag == False:
-                    print("Эта функция только для продавцов")
-                    break
                 else:
+                    print("Товара нет")
+
+
+            elif choice == "4" and user_flag:
                     new_item()
             elif choice == "5":
-                repo.extractjson()
-                repo.extractcsv()
-                repo.extractxml()
-                repo.extractyaml()
+                out.extractjson()
+                out.extractcsv()
+                out.extractxml()
+                out.extractyaml()
 
+            elif choice == "6":
+                del_item()
 
             elif choice == "0":
                 print("Выход из программы...")
@@ -88,7 +101,7 @@ def main():
         else:
             print("Такого пользователя нет в системе")
             break
-    repo.close()
+    out.close()
 
 if __name__ == "__main__":
     main()
