@@ -1,6 +1,6 @@
 import sqlite3
 from data_base.src.Database.db import get_connection
-from data_base.src.models.models import item, Shelve, User
+from data_base.src.models.models import item, User
 
 
 def new_item():
@@ -65,9 +65,8 @@ def del_item():
 
     cursor.execute("SELECT Item_ID, Size, Shelve_placement FROM items WHERE Name = ?", (in_itname,))
     rows = cursor.fetchone()
-    print(rows)
     cursor.executemany("DELETE FROM items WHERE Item_ID = ?", str(rows[0]))
-    print(f"Товар удалён.")
+    print("Товар удалён.")
     cursor.execute(f"UPDATE Shelves SET Capacity = Capacity + ? WHERE Shelve_ID = ?",  (rows[1], rows[2]))
     conn.commit()
     conn.close()
@@ -76,7 +75,7 @@ def del_item():
 class Repository:
     def __init__(self, db_file: str = "library.db"):
         self.conn = sqlite3.connect(db_file)
-        self.conn.row_factory = sqlite3.Row  # Позволяет обращаться к колонкам по имени
+        self.conn.row_factory = sqlite3.Row
         self.cursor = self.conn.cursor()
 
     def authorisation(self):

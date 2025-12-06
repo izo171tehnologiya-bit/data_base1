@@ -10,7 +10,7 @@ OUT_DICT = "out"
 # Продавец Логин Seller1 Пароль qwert
 
 def main():
-    # Если базы нет, создаем таблицы и вставляем тестовые данные
+    # Если базы нет, создаются таблицы и вставляются тестовые данные
     if not os.path.exists(DB_FILE):
         create_tables(DB_FILE)
         insert_sample_data(DB_FILE)
@@ -54,14 +54,21 @@ def main():
                     print(f"{item.it_id}: {item.name} ")
 
             elif choice == "2":
-                inp_name = input("Введите название товара:  ")
+                while True:
+                    inp_name = input("Введите название товара:  ")
+                    if inp_name.isalpha():
+                        break
+                    else:
+                        print("Неверно. Попробуйте ещё раз")
                 items = repo.get_all_items()
                 for item in items:
                     if item.name == inp_name:
                         if item.need_approve == 1:
-                            print("Необходим рецепт от врача")
+                            print("Необходим рецепт от врача.")
                             break
-                else: print("Рецепт не требуется")
+                    print("Рецепт не требуется.")
+                else:
+                    print("Такого товара нет")
 
             elif choice == "3":
                 while True:
@@ -76,6 +83,7 @@ def main():
                         if user_flag == True:
                             print(f"Товар есть в магазине. Он расположен на {item.shelve_placement} полке")
                         break
+                    print("Товар есть в магазине.")
                 else:
                     print("Товара нет")
 

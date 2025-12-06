@@ -7,7 +7,7 @@ def get_connection(db_name: str = "library.db") -> Connection:
 
 def create_tables(db_name: str = "library.db"):
     """
-    Создает таблицы Authors и Books, если их еще нет.
+    Создает таблицы Items, Shelves, Cabinets, Users, если их еще нет.
     """
     conn = get_connection(db_name)
     cursor = conn.cursor()
@@ -56,13 +56,13 @@ def create_tables(db_name: str = "library.db"):
 
 def insert_sample_data(db_name: str = "library.db"):
     """
-    Вставляет тестовые записи в таблицы Authors и Books,
+    Вставляет тестовые записи в таблицы Items, Shelves, Cabinets, Users,
     если они еще не добавлены
     """
     conn = get_connection(db_name)
     cursor = conn.cursor()
 
-    # Проверка, есть ли авторы
+    # Проверка, есть ли товары
     cursor.execute("SELECT COUNT(*) FROM items")
     if cursor.fetchone()[0] == 0:
         items = [
@@ -74,7 +74,7 @@ def insert_sample_data(db_name: str = "library.db"):
         cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement) VALUES (?, ?, ?, ?, ?)", items)
         print("Добавлены товары.")
 
-    # Проверка, есть ли книги
+    # Проверка, есть ли полки
     cursor.execute("SELECT COUNT(*) FROM Shelves")
     if cursor.fetchone()[0] == 0:
         shelve = [
@@ -97,7 +97,7 @@ def insert_sample_data(db_name: str = "library.db"):
         cursor.executemany("INSERT INTO Cabinets (Shelves_ID, Name, Type_of_item) VALUES (?, ?, ?)", cabinets)
         print("Добавлены шкафы.")
 
-    # Проверка, есть ли шкафы
+    # Проверка, есть ли пользователи
     cursor.execute("SELECT COUNT(*) FROM Users")
     if cursor.fetchone()[0] == 0:
         users = [

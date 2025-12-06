@@ -2,10 +2,14 @@
 
 class item:
     """
-    Модель для таблицы Authors
+    Модель для таблицы Items
     Поля:
-    - id: уникальный идентификатор автора (PK)
-    - name: имя автора
+    - id: уникальный идентификатор товара
+    - name: название товара
+    - need_approve: необходимость рецепта от врача
+    - size: размер товара
+    - item_type: тип товара
+    - shelve_placement: расположение товара на полке
     """
     def __init__(self, it_id, name, need_approve, size, item_type, shelve_placement):
         self.it_id = it_id
@@ -17,11 +21,12 @@ class item:
 
 class Shelve:
     """
-    Модель для таблицы Books
+    Модель для таблицы Shelves
     Поля:
-    - id: уникальный идентификатор книги (PK)
-    - title: название книги
-    - author_id: идентификатор автора (FK -> Authors.id)
+    - id: уникальный идентификатор полки
+    - capacity: вместимость полки
+    - cab_id: в каком шкафу находится полка
+    - item_type: какой тип товара содержит полка
     """
     def __init__(self, sh_id, capacity, cab_id, item_type):
         self.sh_id = sh_id
@@ -31,11 +36,11 @@ class Shelve:
 
 class User:
     """
-    Модель для таблицы Books
+    Модель для таблицы Users
     Поля:
-    - id: уникальный идентификатор книги (PK)
-    - title: название книги
-    - author_id: идентификатор автора (FK -> Authors.id)
+    - name: логин пользователя
+    - password: пароль пользователя
+    - is_seller: является ли пользователь продавцом
     """
     def __init__(self, name, password, is_seller):
         self.name = name

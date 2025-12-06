@@ -8,9 +8,9 @@ from xml.dom import minidom
 
 class Out_functions:
     def __init__(self, db_file: str = "library.db"):
-        self.conn = sqlite3.connect(db_file)
+        self.conn = sqlite3.connect(db_file) # Соединение с базой данных
         self.conn.row_factory = sqlite3.Row  # Позволяет обращаться к колонкам по имени
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor() #Создание cursor для выполнения SQL запросов
 
     def extractjson(self):
         # Извлечение данных из SQLite
@@ -22,10 +22,10 @@ class Out_functions:
         for row in rows:
             data.append(dict(zip([column[0] for column in self.cursor.description], row)))
 
-        # Преобразовать данные в формат JSON с указанной кодировкой
-        json_data = json.dumps(data, indent=4, ensure_ascii=False)
+        # Преобразование данных в формат JSON
+        json_data = json.dumps(data, indent=4, ensure_ascii=False) # indent=4 - форматирование с отступами, ensure_ascii=False - поддержка русских букв
 
-        # Сохраните JSON в файл с указанной кодировкой
+        # Сохранение JSON в файл
         with open('out/data.json', 'w', encoding='utf-8') as f:
             f.write(json_data)
         print("Json файл добавлен")
@@ -36,10 +36,11 @@ class Out_functions:
     def extractcsv(self):
         self.cursor.execute("SELECT * FROM items")
         data = self.cursor.fetchall()
+        # Открытие файла для записи в CSV
         with open('out/data.csv', 'w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            writer.writerow([i[0] for i in self.cursor.description])  # Write header
-            writer.writerows(data)  # Write data rows
+            writer.writerow([i[0] for i in self.cursor.description])  # Написать заголовок
+            writer.writerows(data)  # Запись всех строк данных
         print("Csv файл добавлен")
 
 
@@ -47,12 +48,14 @@ class Out_functions:
         self.cursor.execute("SELECT * FROM items")
         rows = self.cursor.fetchall()
 
-        # 2. Создание корневого элемента
+        # Создание корневого элемента
         root = ET.Element("items")
 
-        # 3. Создание XML-структуры из данных
+        # Создание XML-структуры из данных
         for row in rows:
+            # Cоздание элемента
             user_element = ET.SubElement(root, "Item")
+            #  Создание подэлементов
             user_id = ET.SubElement(user_element, "id")
             user_id.text = str(row[0])
             user_name = ET.SubElement(user_element, "name")
@@ -68,8 +71,11 @@ class Out_functions:
 
         #  Запись в XML-файл
         tree = ET.ElementTree(root)
+        # Преобразование XML-дерева в строку
         xml_str = ET.tostring(root, encoding='utf-8', xml_declaration=True)
+        # Форматирование XML для вывода с отступами
         pretty_xml = minidom.parseString(xml_str).toprettyxml(indent="   ")
+        # Сохранение в XML файл
         with open('out/data.xml', "w", encoding='utf-8') as f:
             f.write(pretty_xml)
         print("Xml файл добавлен")
@@ -77,8 +83,11 @@ class Out_functions:
     def extractyaml(self):
         self.cursor.execute("SELECT * FROM items")
         data_from_db = self.cursor.fetchall()
+        # Извлечение имен колонок для использования в качестве ключей словаря
         keys = [description[0] for description in self.cursor.description]
+        # Преобразование каждой строки в словарь
         data_for_yaml = [dict(zip(keys, row)) for row in data_from_db]
+        # Запись данных в YAML файл
         with open('out/data.yaml', 'w', encoding='utf-8') as file:
             yaml.dump(data_for_yaml, file, allow_unicode=True)
             self.conn.close()

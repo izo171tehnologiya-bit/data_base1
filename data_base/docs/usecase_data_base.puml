@@ -4,15 +4,21 @@ skinparam packageStyle rectangle
 actor "Пользователь" as User
 actor "Продавец" as seller
 package "Система" {
+    usecase "Посмотреть все товары" as check_items
     usecase "Узнать необходимость рецепта для получения товара" as need_note
     usecase "Посмотреть наличие товара" as look_enable
     usecase "Добавить товар в базу данных" as add_thing
-    usecase "Проверить рецепт от покупателя" as check_note
+    usecase "Удалить товар из базы данных" as del_item
+    usecase "Вывести данные в виде таблиц" as get_stats
 }
 User --> (look_enable)
+User --> (need_note)
+User --> (check_items)
 
 seller --> (look_enable)
 seller --> (add_thing)
-seller --> (check_note)
-(need_note) ==> (look_enable)
+seller --> (del_item)
+seller --> (need_note)
+seller --> (get_stats)
+seller --> (check_items)
 @enduml
