@@ -19,8 +19,8 @@ def main():
 
     repo = Repository(DB_FILE)
     out = Out_functions(DB_FILE)
-    seller_flag = True
-    aut_flag = True
+    seller_flag = False
+    aut_flag = False
 
     # --- Основной цикл программы ---
     while True:
@@ -82,8 +82,7 @@ def main():
                             print(f"Товар есть в магазине. Он расположен на {item.shelve_placement} полке")
                         break
                     print("Товар есть в магазине.")
-                else:
-                    print("Товара нет")
+                    break
 
 
             elif choice == "4":
