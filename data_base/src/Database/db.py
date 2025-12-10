@@ -28,6 +28,7 @@ def create_tables(db_name: str = "library.db"):
             Size INTEGER,
             Item_type TEXT NOT NULL,
             Shelve_placement INTEGER,
+            Price INTEGER,
             FOREIGN KEY (Shelve_placement) REFERENCES Shelves(Shelve_ID)
         )
     ''')
@@ -66,12 +67,12 @@ def insert_sample_data(db_name: str = "library.db"):
     cursor.execute("SELECT COUNT(*) FROM items")
     if cursor.fetchone()[0] == 0:
         items = [
-            ("Капли для глаз", True, 5, "Не антибиотики", 10),
-            ("Жаропонижающее", False, 3, "Не антибиотики", 10),
-            ("Противовирусное", True, 7, "Антибиотики", 50),
-            ("Витамины", False, 4, "Не антибиотики", 40)
+            ("Капли для глаз", True, 5, "Не антибиотики", 10, 700),
+            ("Жаропонижающее", False, 3, "Не антибиотики", 10, 100),
+            ("Противовирусное", True, 7, "Антибиотики", 50, 500),
+            ("Витамины", False, 4, "Не антибиотики", 40, 200)
         ]
-        cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement) VALUES (?, ?, ?, ?, ?)", items)
+        cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement, Price) VALUES (?, ?, ?, ?, ?, ?)", items)
         print("Добавлены товары.")
 
     # Проверка, есть ли полки

@@ -19,8 +19,8 @@ def main():
 
     repo = Repository(DB_FILE)
     out = Out_functions(DB_FILE)
-    user_flag = False
-    aut_flag = False
+    seller_flag = True
+    aut_flag = True
 
     # --- Основной цикл программы ---
     while True:
@@ -30,19 +30,18 @@ def main():
             inp_password = input("Введите пароль: ")
             for user in users:
                 if (user.name == inp_login) and (user.password == inp_password):
-                    user_flag = user.is_seller
+                    seller_flag = user.is_seller
                     aut_flag = True
         if aut_flag:
-
             print("\nВыберите действие:")
             print("1 - Показать все товары")
             print("2 - Узнать необходимость рецепта")
             print("3 - Проверить наличие товара в магазине")
-            if user_flag:
+            if seller_flag:
                 print("4 - Добавить новый товар")
-            if user_flag:
+            if seller_flag:
                 print("5 - Вывести(обновить) данные в виде разных таблиц")
-            if user_flag:
+            if seller_flag:
                 print("6 - Удалить товар")
             print("0 - Выход")
             choice = input("Ваш выбор: ")
@@ -51,7 +50,7 @@ def main():
                 items = repo.get_all_items()
                 print("\nСписок всех товаров:")
                 for item in items:
-                    print(f"{item.it_id}: {item.name} ")
+                    print(f"{item.it_id}: {item.name} {item.price} руб")
 
             elif choice == "2":
                 while True:
@@ -67,20 +66,19 @@ def main():
                             print("Необходим рецепт от врача.")
                             break
                     print("Рецепт не требуется.")
-                else:
-                    print("Такого товара нет")
+                    break
 
             elif choice == "3":
                 while True:
                     inp_name = input("Введите название товара:  ")
-                    if inp_name.isdigit():
+                    if inp_name.isalpha():
                         break
                     else:
                         print("Неверно, попробуйте ещё раз")
                 items = repo.get_all_items()
                 for item in items:
                     if item.name == inp_name:
-                        if user_flag == True:
+                        if seller_flag == True:
                             print(f"Товар есть в магазине. Он расположен на {item.shelve_placement} полке")
                         break
                     print("Товар есть в магазине.")
@@ -88,8 +86,9 @@ def main():
                     print("Товара нет")
 
 
-            elif choice == "4" and user_flag:
+            elif choice == "4":
                     new_item()
+
             elif choice == "5":
                 out.extractjson()
                 out.extractcsv()

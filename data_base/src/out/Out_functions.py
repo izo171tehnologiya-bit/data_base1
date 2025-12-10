@@ -54,20 +54,22 @@ class Out_functions:
         # Создание XML-структуры из данных
         for row in rows:
             # Cоздание элемента
-            user_element = ET.SubElement(root, "Item")
+            item_element = ET.SubElement(root, "Item")
             #  Создание подэлементов
-            user_id = ET.SubElement(user_element, "id")
+            user_id = ET.SubElement(item_element, "id")
             user_id.text = str(row[0])
-            user_name = ET.SubElement(user_element, "name")
+            user_name = ET.SubElement(item_element, "name")
             user_name.text = row[1]
-            user_aprove = ET.SubElement(user_element, "Need_approve")
+            user_aprove = ET.SubElement(item_element, "Need_approve")
             user_aprove.text = str(row[2])
-            user_size = ET.SubElement(user_element, "Size")
+            user_size = ET.SubElement(item_element, "Size")
             user_size.text = str(row[3])
-            user_type = ET.SubElement(user_element, "Item_type")
+            user_type = ET.SubElement(item_element, "Item_type")
             user_type.text = row[4]
-            user_place = ET.SubElement(user_element, "Shelve_placement")
+            user_place = ET.SubElement(item_element, "Shelve_placement")
             user_place.text = str(row[5])
+            user_price = ET.SubElement(item_element, "Price")
+            user_price.text = str(row[6])
 
         #  Запись в XML-файл
         tree = ET.ElementTree(root)

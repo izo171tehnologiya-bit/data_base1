@@ -35,14 +35,21 @@ def new_item():
         else:
             print("Неверно, попробуйте ещё раз")
 
+    while True:
+        in_itprice = input("Введите цену товара:")
+        if in_itprice.isdigit():
+            break
+        else:
+            print("Неверно, попробуйте ещё раз")
+
     try:
         cursor.execute(f"SELECT Shelve_ID, Cabinet_ID FROM Shelves WHERE Capacity > ? AND Type_of_item = ?", (in_itsize, in_ittype))
         rows = cursor.fetchone()
 
         new_items = [
-            (in_itname, in_itaprov, in_itsize, in_ittype, rows[0])
+            (in_itname, in_itaprov, in_itsize, in_ittype, rows[0], in_itprice)
         ]
-        cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement) VALUES (?, ?, ?, ?, ?)", new_items)
+        cursor.executemany("INSERT INTO items (Name, Need_approve, Size, Item_type, Shelve_placement, Price) VALUES (?, ?, ?, ?, ?, ?)", new_items)
         print(f"Товар добавлен. Поместите его на {rows[1]} шкаф {rows[0]} полку")
         cursor.execute(f"UPDATE Shelves SET Capacity = Capacity - ? WHERE Shelve_ID = ?",  (in_itsize, rows[0]))
     except:
@@ -92,11 +99,11 @@ class Repository:
                 print("Неверно, попробуйте ещё раз")
         self.cursor.execute("SELECT Need_approve FROM items WHERE Name = ?", (inp_name,))
         rows = self.cursor.fetchall()
-        return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"], shelve_placement=row["Shelve_placement"]) for row in rows]
+        return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"], shelve_placement=row["Shelve_placement"], price=row["Price"]) for row in rows]
 
     def get_all_items(self):
-            self.cursor.execute("SELECT Item_ID, Name, Need_approve, Size, Item_type, Shelve_placement FROM items")
+            self.cursor.execute("SELECT Item_ID, Name, Need_approve, Size, Item_type, Shelve_placement, Price FROM items")
             rows = self.cursor.fetchall()
-            return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"], shelve_placement=row["Shelve_placement"]) for row in rows]
+            return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"], shelve_placement=row["Shelve_placement"], price=row["Price"]) for row in rows]
 
 

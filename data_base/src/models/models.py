@@ -11,13 +11,14 @@ class item:
     - item_type: тип товара
     - shelve_placement: расположение товара на полке
     """
-    def __init__(self, it_id, name, need_approve, size, item_type, shelve_placement):
+    def __init__(self, it_id, name, need_approve, size, item_type, shelve_placement, price):
         self.it_id = it_id
         self.name = name
         self.need_approve = need_approve
         self.size = size
         self.item_type = item_type
         self.shelve_placement = shelve_placement
+        self.price = price
 
 class Shelve:
     """
