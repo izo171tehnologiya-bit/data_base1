@@ -79,9 +79,9 @@ def main():
                 for item in items:
                     if item.name == inp_name:
                         if seller_flag == True:
-                            print(f"Товар есть в магазине. Он расположен на {item.shelve_placement} полке")
+                            print(f"Товар есть в магазине ({item.price} руб). Он расположен на {item.shelve_placement} полке")
                         break
-                    print("Товар есть в магазине.")
+                    print(f"Товар есть в магазине ({item.price} руб).")
                     break
 
 

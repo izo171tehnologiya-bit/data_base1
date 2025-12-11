@@ -72,7 +72,6 @@ class Out_functions:
             user_price.text = str(row[6])
 
         #  Запись в XML-файл
-        tree = ET.ElementTree(root)
         # Преобразование XML-дерева в строку
         xml_str = ET.tostring(root, encoding='utf-8', xml_declaration=True)
         # Форматирование XML для вывода с отступами

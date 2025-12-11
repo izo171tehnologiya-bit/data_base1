@@ -97,7 +97,7 @@ class Repository:
                 break
             else:
                 print("Неверно, попробуйте ещё раз")
-        self.cursor.execute("SELECT Need_approve FROM items WHERE Name = ?", (inp_name,))
+        self.cursor.execute("SELECT * FROM items WHERE Name = ?", (inp_name,))
         rows = self.cursor.fetchall()
         return [item(it_id=row["Item_ID"], name=row["Name"], need_approve=row["Need_approve"], size=row["Size"], item_type=row["Item_type"], shelve_placement=row["Shelve_placement"], price=row["Price"]) for row in rows]
 
